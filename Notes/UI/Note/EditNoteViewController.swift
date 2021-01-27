@@ -145,8 +145,10 @@ extension EditNoteViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == tfTitle {
             if let text = textField.text as NSString? {
-                lblTitleError.isHidden = isTitleValid()
-                btnSave.isEnabled = isTextValid() && isTitleValid()
+                let content = (text as NSString).replacingCharacters(in: range, with: string) as NSString
+                let containsWhitespace = content.trimmingCharacters(in: .whitespaces).isEmpty
+                lblTitleError.isHidden = content != "" && !containsWhitespace
+                btnSave.isEnabled = isTextValid() && content != "" && !containsWhitespace
                 
                 let newLength = text.length + string.count - range.length
                 return newLength <= 20

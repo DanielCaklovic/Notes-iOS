@@ -14,6 +14,7 @@ class NoteDetailViewController: UIViewController, UIScrollViewDelegate {
     
     let lblTitle = UILabel()
     let lblText = UILabel()
+    let lblDate = UILabel()
     
     // ideally inject with DI
     var noteRepository = NoteRepository()
@@ -42,17 +43,26 @@ class NoteDetailViewController: UIViewController, UIScrollViewDelegate {
         lblText.numberOfLines = 0
         lblText.sizeToFit()
         
+        lblDate.font = .systemFont(ofSize: 12)
+        
         view.addSubview(lblTitle)
         view.addSubview(lblText)
+        view.addSubview(lblDate)
         
         lblTitle.translatesAutoresizingMaskIntoConstraints = false
         lblText.translatesAutoresizingMaskIntoConstraints = false
+        lblDate.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
             lblTitle.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             lblTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             lblTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             
-            lblText.topAnchor.constraint(equalTo: lblTitle.bottomAnchor, constant: 16),
+            lblDate.topAnchor.constraint(equalTo: lblTitle.bottomAnchor, constant: 16),
+            lblDate.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            lblDate.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            
+            lblText.topAnchor.constraint(equalTo: lblDate.bottomAnchor, constant: 16),
             lblText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             lblText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         ])
@@ -76,6 +86,7 @@ class NoteDetailViewController: UIViewController, UIScrollViewDelegate {
     func setDetails(note: Note) {
         lblTitle.text = note.title
         lblText.text = note.text
+        lblDate.text = note.date?.toStringDate()
     }
 }
 
