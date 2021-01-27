@@ -14,7 +14,6 @@ class NoteDetailViewController: UIViewController, UIScrollViewDelegate {
     
     let lblTitle = UILabel()
     let lblText = UILabel()
-    let scrollView = UIScrollView()
     
     // ideally inject with DI
     var noteRepository = NoteRepository()
@@ -33,11 +32,6 @@ class NoteDetailViewController: UIViewController, UIScrollViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        scrollView.contentSize = CGSize(width: 100, height: 200)
-    }
-    
     func setupView() {
         title = "Note details"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editNode))
@@ -48,15 +42,9 @@ class NoteDetailViewController: UIViewController, UIScrollViewDelegate {
         lblText.numberOfLines = 0
         lblText.sizeToFit()
         
-        scrollView.isUserInteractionEnabled = true
-        scrollView.delegate = self
-        scrollView.isScrollEnabled = true
-        
         view.addSubview(lblTitle)
-        view.addSubview(scrollView)
-        scrollView.addSubview(lblText)
+        view.addSubview(lblText)
         
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
         lblTitle.translatesAutoresizingMaskIntoConstraints = false
         lblText.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -67,11 +55,6 @@ class NoteDetailViewController: UIViewController, UIScrollViewDelegate {
             lblText.topAnchor.constraint(equalTo: lblTitle.bottomAnchor, constant: 16),
             lblText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             lblText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            
-            scrollView.topAnchor.constraint(equalTo: lblTitle.bottomAnchor, constant: 16),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 16)
         ])
     }
     
